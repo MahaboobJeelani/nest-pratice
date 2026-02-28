@@ -12,6 +12,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true
     }))
 
+  // here we are enabling the lifecycle event
+  app.enableShutdownHooks();
+  
   await app.listen(process.env.PORT ?? 3000);
 }
 
