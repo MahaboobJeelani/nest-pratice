@@ -20,7 +20,7 @@ import { MongooseModule} from "@nestjs/mongoose"
     envFilePath:'.env',
     isGlobal: true
   }), 
-  // connecting the database
+  // connecting the database pass the database string to the entire application
   MongooseModule.forRoot(process.env.MONGODB_URI!)
 
 ],

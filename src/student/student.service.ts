@@ -1,4 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Student, StudentDocument } from './student.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class StudentService {
@@ -6,6 +9,17 @@ export class StudentService {
         { id: 1, name: "Mahaboob", age: 23 },
         { id: 2, name: "sunil", age: 18 },
     ]
+
+    constructor( @InjectModel(Student.name) private studentModel:Model<StudentDocument> ){}
+
+    async createStudentDB(data:Partial<Student>){
+        const newStudent = new this.studentModel(data)
+        return newStudent.save();
+    }
+
+    async getStudent():Promise<Student[]>{
+        return this.studentModel.find().exec()
+    }
 
     getAllStudents() {
         return this.students;
