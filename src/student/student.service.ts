@@ -10,16 +10,32 @@ export class StudentService {
         { id: 2, name: "sunil", age: 18 },
     ]
 
-    constructor( @InjectModel(Student.name) private studentModel:Model<StudentDocument> ){}
+    constructor(@InjectModel(Student.name) private studentModel: Model<StudentDocument>) { }
 
-    async createStudentDB(data:Partial<Student>){
+    async createStudentDB(data: Partial<Student>) {
         const newStudent = new this.studentModel(data)
         return newStudent.save();
     }
 
-    async getStudent():Promise<Student[]>{
+    // retrive the data from the mongodb atlas
+    async getStudent(): Promise<Student[]> {
         return this.studentModel.find().exec()
     }
+
+    async getSingleById(id: string): Promise<Student | null> {
+        return this.studentModel.findById(id).exec()
+    }
+
+    async updateStudentById(id: string, data: Partial<Student>): Promise<Student | null> {
+        return this.studentModel.findByIdAndUpdate(id, data, { new: true }).exec()
+    }
+
+    async deleteStudentById(id: string):Promise<Student | null> {
+        return this.studentModel.findByIdAndDelete(id).exec()
+    }
+
+
+    // retriving the content data the variable name is "students" from the service
 
     getAllStudents() {
         return this.students;
@@ -76,6 +92,6 @@ export class StudentService {
         }
 
         const deleted = this.students.splice(index, 1);
-        return {message:"Student deleted", student: deleted[0]}
+        return { message: "Student deleted", student: deleted[0] }
     }
 }

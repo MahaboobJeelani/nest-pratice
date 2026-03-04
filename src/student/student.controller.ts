@@ -6,17 +6,34 @@ import { Student } from './student.schema';
 export class StudentController {
     constructor(private readonly studentService: StudentService) { }
 
-    @Get()
-    getStudent() {
-        return this.studentService.getAllStudents();
-    }
 
-        
+    // Mongodb retriving data
+
     @Get('details')
     async getStudentData() {
         return this.studentService.getStudent()
     }
 
+    @Get('getsingleStudent/:id')
+    async getSingleStudentById(@Param('id') id: string) {
+        return this.studentService.getSingleById(id)
+    }
+
+    @Put('updatestudentbyid/:id')
+    async updateStudentById(@Param('id') id: string, @Body() body: Partial<Student> ) {
+        return this.studentService.updateStudentById(id, body)
+    }
+
+    @Delete('deletestudent/:id')
+    async deleteSingleStudent(@Param('id') id:string){
+        return this.studentService.deleteStudentById(id)
+    }
+
+    // retriving the content data the variable name is "students" from the service
+    @Get('getdata')
+    getStudent() {
+        return this.studentService.getAllStudents();
+    }
 
     @Get(":id")
     getStudentById(@Param('id') id: string) {
