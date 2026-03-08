@@ -17,6 +17,8 @@ import { MongooseModule} from "@nestjs/mongoose"
 import { UserModule } from './user/user.module';
 import { EmployeeModule } from './employee/employee.module';
 import { LibraryModule } from './library/library.module';
+import { ProjectsModule } from './projects/projects.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [StudentModule, CustomerModule, ProductModule, ConfigModule.forRoot({
@@ -24,7 +26,7 @@ import { LibraryModule } from './library/library.module';
     isGlobal: true
   }), 
   // connecting the database pass the database string to the entire application
-  MongooseModule.forRoot(process.env.MONGODB_URI!), UserModule, EmployeeModule, LibraryModule
+  MongooseModule.forRoot(process.env.MONGODB_URI!), UserModule, EmployeeModule, LibraryModule, ProjectsModule, AuthModule
 
 ],
   controllers: [AppController, MynameController, UserRolesController, ExceptionController, DatabaseController, EvController],
