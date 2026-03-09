@@ -13,22 +13,33 @@ import { DatabaseController } from './database/database.controller';
 import { EvService } from './ev/ev.service';
 import { EvController } from './ev/ev.controller';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule} from "@nestjs/mongoose"
+import { MongooseModule } from "@nestjs/mongoose"
 import { UserModule } from './user/user.module';
 import { EmployeeModule } from './employee/employee.module';
 import { LibraryModule } from './library/library.module';
 import { ProjectsModule } from './projects/projects.module';
 import { AuthModule } from './auth/auth.module';
+import { BookModule } from './book/book.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo"
+import { join } from 'path';
 
 @Module({
   imports: [StudentModule, CustomerModule, ProductModule, ConfigModule.forRoot({
-    envFilePath:'.env',
+    envFilePath: '.env',
     isGlobal: true
-  }), 
-  // connecting the database pass the database string to the entire application
-  MongooseModule.forRoot(process.env.MONGODB_URI!), UserModule, EmployeeModule, LibraryModule, ProjectsModule, AuthModule
+  }),
+    //  working on the GraphQL
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), "src/schema.gql"),
+      sortSchema: true,
+      playground: true
+    }),
+    // connecting the database pass the database string to the entire application
+    MongooseModule.forRoot(process.env.MONGODB_URI!), UserModule, EmployeeModule, LibraryModule, ProjectsModule, AuthModule, BookModule
 
-],
+  ],
   controllers: [AppController, MynameController, UserRolesController, ExceptionController, DatabaseController, EvController],
   providers: [AppService, DatabaseService, EvService],
 })
