@@ -1,5 +1,5 @@
 import { InputType, Field } from "@nestjs/graphql";
-import { IsNotEmpty, isString, IsString } from 'class-validator'
+import { IsNotEmpty, IsOptional, isString, IsString } from 'class-validator'
 
 @InputType()
 export class CreateBookInput{
@@ -10,6 +10,7 @@ export class CreateBookInput{
 
     @Field({nullable:true})
     @IsString()
+    @IsOptional()
     description?:string
 
     @Field()
